@@ -1,9 +1,6 @@
-# 📦 Streamlit App Starter Kit 
-```
-⬆️ (Replace above with your app's name)
-```
+# 💰 Loan Status Predictor 📊 
 
-Description of the app ...
+App to predict loan status (accepted/rejected)
 
 ## Demo App
 
