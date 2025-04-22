@@ -33,7 +33,7 @@ st.title("💰 Loan Status Predictor 📊")
 
 st.write(
     "This app predicts whether your loan application will be approved or rejected based on the personal and financial information you provide.\n"
-    "Simply fill in your details and get a quick prediction!"
+    "Simply fill in your details and get a quick prediction! \n by Syalista Galuh Nadira"
 )
 
 st.subheader("Input Data")
