@@ -1,27 +1,25 @@
 import streamlit as st
 import pandas as pd
-import pickle
 from predictor import LoanStatusPredictor 
 
-model_path = 'tuned_xgb_model.pkl'
-ordinal_encoder = pickle.load(open('ordinal_enc.pkl', 'rb'))
-label_encoder = pickle.load(open('label_enc.pkl', 'rb'))
-onehot_encoder = pickle.load(open('onehot_enc.pkl', 'rb'))
-
-expected_columns = [
-    'person_age', 'person_income', 'person_emp_exp', 'loan_amnt', 'loan_int_rate',
-    'loan_percent_income', 'cb_person_cred_hist_length', 'credit_score',
-    'person_gender', 'person_education', 'previous_loan_defaults_on_file',
-    'loan_intent_EDUCATION', 'loan_intent_HOMEIMPROVEMENT', 'loan_intent_MEDICAL',
-    'loan_intent_PERSONAL', 'loan_intent_VENTURE',
-    'person_home_ownership_Own', 'person_home_ownership_Rent'
-]
-
-predictor = LoanStatusPredictor(model_path, ordinal_encoder, label_encoder, onehot_encoder, expected_columns)
+predictor = LoanStatusPredictor(
+    model_path='tuned_xgb_model.pkl',
+    columns_path='final_columns.pkl',
+    label_encoder='label_enc.pkl',
+    onehot_encoder='onehot_enc.pkl',
+    ordinal_encoder='ordinal_enc.pkl'
+)
 
 st.title("💰 Loan Status Predictor 📊")
 
-with st.form("loan_form"):
+st.write(
+    "This app predicts whether your loan application will be approved or rejected based on the personal and financial information you provide.\n"
+    "Simply fill in your details and get a quick prediction!"
+)
+
+st.subheader("Input Data")
+
+with st.form(key='input_form'):
     st.subheader("Personal Information")
     person_age = st.number_input("Age", min_value=18, max_value=144, value=25)
     person_gender = st.selectbox("Gender", ["male", "female"])
@@ -43,8 +41,8 @@ with st.form("loan_form"):
 
     submitted = st.form_submit_button("Submit")
 
-    if submitted:
-        input_df = pd.DataFrame([{
+if submitted:
+    input_df = pd.DataFrame([{
             'person_age': person_age,
             'person_gender': person_gender,
             'person_education': person_education,
@@ -59,6 +57,7 @@ with st.form("loan_form"):
             'credit_score': credit_score,
             'previous_loan_defaults_on_file': previous_loan_defaults_on_file
         }])
+
 
         prediction = predictor.predict(input_df)[0]
         label = "Approved ✅" if prediction == 1 else "Rejected ❌"
