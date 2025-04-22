@@ -3,8 +3,8 @@ import pandas as pd
 from predictor import LoanStatusPredictor 
 
 predictor = LoanStatusPredictor(
-    model_path='tuned_xgb_model.pkl',
-    columns_path='final_columns.pkl',
+    model='tuned_xgb_model.pkl',
+    columns='final_columns.pkl',
     label_encoder='label_enc.pkl',
     onehot_encoder='onehot_enc.pkl',
     ordinal_encoder='ordinal_enc.pkl'
