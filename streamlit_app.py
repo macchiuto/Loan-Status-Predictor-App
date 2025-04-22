@@ -57,8 +57,6 @@ if submitted:
             'credit_score': credit_score,
             'previous_loan_defaults_on_file': previous_loan_defaults_on_file
         }])
-
-
-        prediction = predictor.predict(input_df)[0]
-        label = "Approved ✅" if prediction == 1 else "Rejected ❌"
-        st.success(f"Your loan status is predicted to be {label}")
+    prediction = predictor.predict(input_df)[0]
+    label = "Approved ✅" if prediction == 1 else "Rejected ❌"
+    st.success(f"Your loan status is predicted to be {label}")
