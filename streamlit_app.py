@@ -5,7 +5,8 @@ from predictor import LoanStatusPredictor
 predictor = LoanStatusPredictor(
     model='tuned_xgb_model.pkl',
     columns='final_columns.pkl',
-    label_encoder='label_enc.pkl',
+    default_encoder='default_enc.pkl',
+    gender_encoder='gender_enc.pkl',
     onehot_encoder='onehot_enc.pkl',
     ordinal_encoder='ordinal_enc.pkl'
 )
