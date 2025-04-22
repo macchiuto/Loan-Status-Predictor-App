@@ -4,9 +4,9 @@ import pickle
 from predictor import LoanStatusPredictor 
 
 model_path = 'tuned_xgb_model.pkl'
-ordinal_encoder = pickle.load(open('ordinal_encoder.pkl', 'rb'))
-label_encoder = pickle.load(open('label_encoder.pkl', 'rb'))
-onehot_encoder = pickle.load(open('onehot_encoder.pkl', 'rb'))
+ordinal_encoder = pickle.load(open('ordinal_enc.pkl', 'rb'))
+label_encoder = pickle.load(open('label_enc.pkl', 'rb'))
+onehot_encoder = pickle.load(open('onehot_enc.pkl', 'rb'))
 
 expected_columns = [
     'person_age', 'person_income', 'person_emp_exp', 'loan_amnt', 'loan_int_rate',
