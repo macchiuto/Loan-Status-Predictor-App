@@ -1,15 +1,33 @@
 import streamlit as st
 import pandas as pd
-from predictor import LoanStatusPredictor 
+import pickle
+from predictor import LoanStatusPredictor
 
-predictor = LoanStatusPredictor(
-    model='tuned_xgb_model.pkl',
-    columns='final_columns.pkl',
-    default_encoder='default_enc.pkl',
-    gender_encoder='gender_enc.pkl',
-    onehot_encoder='onehot_enc.pkl',
-    ordinal_encoder='ordinal_enc.pkl'
-)
+@st.cache_resource
+def load_predictor():
+    with open('tuned_xgb_model.pkl', 'rb') as f:
+        model = pickle.load(f)
+    with open('final_columns.pkl', 'rb') as f:
+        columns = pickle.load(f)
+    with open('default_enc.pkl', 'rb') as f:
+        default_encoder = pickle.load(f)
+    with open('gender_enc.pkl', 'rb') as f:
+        gender_encoder = pickle.load(f)
+    with open('onehot_enc.pkl', 'rb') as f:
+        onehot_encoder = pickle.load(f)
+    with open('ordinal_enc.pkl', 'rb') as f:
+        ordinal_encoder = pickle.load(f)
+
+    return LoanStatusPredictor(
+        model=model,
+        columns=columns,
+        default_encoder=default_encoder,
+        gender_encoder=gender_encoder,
+        onehot_encoder=onehot_encoder,
+        ordinal_encoder=ordinal_encoder
+    )
+
+predictor = load_predictor()
 
 st.title("💰 Loan Status Predictor 📊")
 
@@ -44,20 +62,20 @@ with st.form(key='input_form'):
 
 if submitted:
     input_df = pd.DataFrame([{
-            'person_age': person_age,
-            'person_gender': person_gender,
-            'person_education': person_education,
-            'person_income': person_income,
-            'person_emp_exp': person_emp_exp,
-            'person_home_ownership': person_home_ownership,
-            'loan_amnt': loan_amnt,
-            'loan_intent': loan_intent,
-            'loan_int_rate': loan_int_rate,
-            'loan_percent_income': loan_percent_income,
-            'cb_person_cred_hist_length': cb_person_cred_hist_length,
-            'credit_score': credit_score,
-            'previous_loan_defaults_on_file': previous_loan_defaults_on_file
-        }])
+        'person_age': person_age,
+        'person_gender': person_gender,
+        'person_education': person_education,
+        'person_income': person_income,
+        'person_emp_exp': person_emp_exp,
+        'person_home_ownership': person_home_ownership,
+        'loan_amnt': loan_amnt,
+        'loan_intent': loan_intent,
+        'loan_int_rate': loan_int_rate,
+        'loan_percent_income': loan_percent_income,
+        'cb_person_cred_hist_length': cb_person_cred_hist_length,
+        'credit_score': credit_score,
+        'previous_loan_defaults_on_file': previous_loan_defaults_on_file
+    }])
     prediction = predictor.predict(input_df)[0]
     label = "Approved ✅" if prediction == 1 else "Rejected ❌"
     st.success(f"Your loan status is predicted to be {label}")
