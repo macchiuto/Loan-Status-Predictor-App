@@ -33,12 +33,9 @@ Live demo of the app:
 
 ## Methodology
 1. **Data Preprocessing**
-   - Clean and standardize columns (e.g., `person_gender`, missing values)
-   - Encode categorical variables:
-     - `OrdinalEncoder` for hierarchical categories (education)
-     - `LabelEncoder` for binary categories (gender, previous defaults)
-     - `OneHotEncoder` for nominal categories (loan intent, home ownership)
-   - Align features with trained model (`final_columns.pkl`)  
+   - Clean and standardize columns
+   - Encode categorical variables
+   - Align features with trained model
 
 2. **Exploratory Data Analysis (EDA)**
    - Check distributions of numerical & categorical variables  
